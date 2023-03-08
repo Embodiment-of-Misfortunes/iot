@@ -1,0 +1,24 @@
+void setup() {
+Serial.begin(9600);
+   pinMode(33,INPUT);
+   pinMode(32,INPUT);
+pinMode(1,OUTPUT);
+pinMode(3,OUTPUT);
+pinMode(5,OUTPUT);
+}
+void loop() {
+int t=digitalRead(33);
+if(t==0){
+digitalWrite(3,HIGH);  
+  digitalWrite(5,HIGH);
+  digitalWrite(1,LOW); 
+delay(100);
+}
+int to=digitalRead(32);
+if(to==1){
+  digitalWrite(3,LOW);
+digitalWrite(5,LOW); 
+digitalWrite(1,HIGH); 
+delay(100);
+}
+}

@@ -1,0 +1,53 @@
+#define TAR 12 //traget signal
+#define REC 14//echo or received signal
+#define BUZ 32 
+void setup() {
+Serial.begin(9600);
+Serial.print("Ultra sonic inteface");
+  pinMode(BUZ,OUTPUT);
+   pinMode(REC,INPUT);
+   pinMode(TAR,OUTPUT);   
+}
+void loop() {
+digitalWrite(TAR,HIGH);
+delayMicroseconds(10); 
+digitalWrite(TAR,LOW);
+int time=pulseIn(REC,HIGH);
+float distance=(0.0343)*(time)/2;
+Serial.println(distance);
+if(distance>=100 ){
+digitalWrite(BUZ,LOW);
+}
+if(distance>=75 && distance<100){
+  digitalWrite(BUZ,HIGH);
+delay(2000);
+digitalWrite(BUZ,LOW);
+delay(2000);
+}
+if(distance>=25 && distance<75){
+  digitalWrite(BUZ,HIGH);
+delay(1000);
+digitalWrite(BUZ,LOW);
+delay(1000);
+}
+if(distance<25){
+  digitalWrite(BUZ,HIGH);
+delay(150);
+digitalWrite(BUZ,LOW);
+delay(150);
+}
+if(distance>=100 ){
+digitalWrite(BUZ,LOW);
+delay(2000);
+}
+
+//float inch=(distance)*(0.393701);
+//Serial.println("Distance is :");
+//Serial.print(distance);
+//Serial.println(" cm's");
+//Serial.print(inch);
+//Serial.println(" inchs's");
+
+
+
+}

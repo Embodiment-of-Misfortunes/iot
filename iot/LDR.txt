@@ -1,0 +1,23 @@
+#define POTPIN 32
+//#define LIGHT 13
+void setup(){
+ pinMode(POTPIN,INPUT);
+ pinMode(13,OUTPUT); 
+Serial.begin(9600);
+}
+void loop(){
+float value=analogRead(POTPIN);
+Serial.print("ADC value:");
+Serial.println(value);
+float per=map(value,0,4095,0,100);
+Serial.println(per);
+if(per<10){
+digitalWrite(13,HIGH);
+}
+if(per>10){
+digitalWrite(13,LOW);
+}
+
+
+
+}

@@ -1,0 +1,16 @@
+#define POTPIN 32
+void setup(){
+ pinMode(POTPIN,INPUT); 
+Serial.begin(9600);
+}
+void loop(){
+float value=analogRead(POTPIN);
+Serial.print("ADC value:");
+Serial.println(value);
+//float voltage =value*(3.3)/4095;
+float voltage=map(value,0,4095,0,3.3);
+Serial.print("--voltage:");
+Serial.println(voltage);
+delay(1000);
+
+}
