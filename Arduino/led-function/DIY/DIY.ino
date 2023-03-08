@@ -1,0 +1,30 @@
+#include <DHT.h>
+#define DHTPIN 32
+#define DHTTYPE DHT11
+DHT dht (DHTPIN,DHTTYPE);
+void setup(){
+  pinMode(13,OUTPUT);
+Serial.begin(9600);
+Serial.print("DHT test");
+dht.begin();
+}
+void loop(){
+delay(2000);
+float h=dht.readHumidity();
+float t=dht.readTemperature();
+if(isnan(h) || isnan(t)){
+Serial.print("");
+return;
+}
+Serial.print("Humidity: ");
+Serial.print(h);
+Serial.print("% Temperature:");
+Serial.println(t);
+delay(1000);
+if(t>=23){
+  digitalWrite(13, HIGH);
+}
+else{
+ digitalWrite(13, LOW);  
+}  
+}
