@@ -1,0 +1,28 @@
+#define BLYNK_PRINT Serial
+#define BLYNK_TEMPLATE_ID ""
+#define BLYNK_TEMPLATE_NAME ""
+#define BLYNK_AUTH_TOKEN ""
+
+#include<WiFi.h>
+#include<WiFiClient.h>
+#include<BlynkSimpleEsp32.h>
+
+char auth[]=BLYNK_AUTH_TOKEN;
+char ssid[]="wifiname";
+char pass[]="password";
+BlynkTimer timer;
+
+void setup(){
+Serial.begin(9600);
+Blynk.begin(BLYNK_AUTH_TOKEN,ssid,pass);
+timer.setInterval(1000l,sendSensor);
+}
+
+void loop(){
+Blynk.run();
+timer.run();
+}
+
+void sendSensor(){
+Bylnk.virtualWrite(V0,Variable);
+}
