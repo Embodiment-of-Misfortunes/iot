@@ -1,0 +1,33 @@
+
+#include<Wire.h>
+#include <Adafruit_SSD1306.h>
+#define Height 64
+#define Width 128
+Adafruit_SSD1306 oled(Width,Height,&Wire,-1);
+void setup(){
+  Serial.begin(115200);
+if(!oled.begin(SSD1306_SWITCHCAPVCC,0x3C)){
+   Serial.println("connection not proper...");
+while(1){}
+}
+delay(2000);
+oled.clearDisplay();
+
+}
+void loop(){
+oled.setTextSize(1);
+oled.setTextColor(WHITE);
+oled.setCursor(0,10);
+oled.println("i'm raju");
+oled.print("hai");
+oled.display();
+delay(1000);
+oled.setCursor(5,30);
+  oled.setTextSize(4);
+  oled.write(3);
+  oled.display();
+  delay(300);
+  oled.clearDisplay();
+ delay(300);  
+
+}
