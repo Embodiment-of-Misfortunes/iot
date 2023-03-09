@@ -1,0 +1,16 @@
+#include <Wire.h>
+#include<Adafruit_BMP085.h>
+Adafruit_BMP085 bmp;
+void setup(){ 
+Serial.begin(9600);
+Serial.println("BMP180 testing...");
+bmp.begin();
+}
+void loop(){
+float pressure=bmp.readPressure();
+Serial.print("pressure:");
+Serial.println(pressure);
+delay(1500);
+}
+//sda-21
+//scl-22
