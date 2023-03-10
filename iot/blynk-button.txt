@@ -1,0 +1,90 @@
+#include<WiFi.h>
+#include<WiFiClient.h>
+#include<BlynkSimpleEsp32.h>
+
+#include<Wire.h>
+#include "Adafruit_SSD1306.h"
+#include "Adafruit_BMP085.h"
+#include "DHT.h"
+
+#define BLYNK_PRINT Serial
+#define BLYNK_TEMPLATE_ID "TMPLeAtiBxrg"
+#define BLYNK_TEMPLATE_NAME "atmosphere"
+#define BLYNK_AUTH_TOKEN "4q20vxIvpq_ph-h8db2mYdKKYEAt5uQk"
+
+#define GLED 2
+#define RLED 5
+#define DHTPIN 32
+#define DHTTYPE DHT11
+#define Height 64
+#define Width 128
+Adafruit_BMP085 bmp;
+DHT dht (DHTPIN,DHTTYPE);
+Adafruit_SSD1306 oled(Width,Height,&Wire,-1);
+
+char auth[]=BLYNK_AUTH_TOKEN;
+char ssid[]="ar";
+char pass[]="9876543210";
+BlynkTimer timer;
+
+void setup(){
+Serial.begin(9600);
+Blynk.begin(BLYNK_AUTH_TOKEN,ssid,pass);
+timer.setInterval(1000l,sendSensor);
+if(!oled.begin(SSD1306_SWITCHCAPVCC,0x3C)){
+   Serial.println("connection not proper...");
+while(1){}
+Serial.print("DHT test");
+
+}
+dht.begin();
+bmp.begin();
+
+oled.clearDisplay();
+oled.setTextSize(1);
+oled.setTextColor(WHITE);
+
+
+pinMode(GLED,OUTPUT);
+pinMode(RLED,OUTPUT);
+}
+
+void loop(){
+Blynk.run();
+timer.run();
+}
+
+void sendSensor(){
+float h=dht.readHumidity();
+float t=dht.readTemperature();
+float p=bmp.readPressure();
+if(isnan(h) || isnan(t)){
+Serial.print("");
+return;
+}
+oled.clearDisplay();
+oled.setCursor(0,10);
+Serial.print("Humidity: ");
+Serial.print(h);
+Serial.println("%");
+oled.print("Humidity:");
+oled.print(h);
+oled.println("%");
+Blynk.virtualWrite(V1,h);
+
+
+Serial.print("Temperature:");
+Serial.println(t);
+oled.print("Temprature:");
+oled.println(t);
+Blynk.virtualWrite(V0,t);
+
+Serial.print("Presure:");
+Serial.println(p);
+oled.print("Presure:");
+oled.print(p);
+Blynk.virtualWrite(V2,p);
+oled.display();
+delay(2000);  
+//Bylnk.virtualWrite(V0,Variable);
+}
