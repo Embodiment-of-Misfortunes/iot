@@ -1,0 +1,11 @@
+
+void setup(){
+  Serial.begin(9600);
+  int a=1;
+  float b=2.5;
+char c[]="Raju";
+Serial.printf("%d)Hai %s ,burritos are  %.2f degrees F",a, c, b);
+}
+void loop(){
+
+}
