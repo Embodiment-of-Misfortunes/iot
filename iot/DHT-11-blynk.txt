@@ -1,0 +1,49 @@
+#include<WiFi.h>
+#include<WiFiClient.h>
+#include<BlynkSimpleEsp32.h>
+
+#include <DHT.h>
+#define DHTPIN 32
+#define DHTTYPE DHT11
+
+#define BLYNK_PRINT Serial
+#define BLYNK_TEMPLATE_ID "TMPLeAtiBxrg"
+#define BLYNK_TEMPLATE_NAME "atmosphere"
+#define BLYNK_AUTH_TOKEN "4q20vxIvpq_ph-h8db2mYdKKYEAt5uQk"
+char auth[]=BLYNK_AUTH_TOKEN;
+char ssid[]="ar";
+char pass[]="9876543210";
+BlynkTimer timer;
+
+DHT dht (DHTPIN,DHTTYPE);
+
+void setup(){
+Serial.begin(9600);
+Blynk.begin(BLYNK_AUTH_TOKEN,ssid,pass);
+timer.setInterval(1000l,sendSensor);
+Serial.print("DHT test");
+dht.begin();
+}
+
+void loop(){
+Blynk.run();
+timer.run();
+}
+
+void sendSensor(){
+delay(2000);
+float h=dht.readHumidity();
+float t=dht.readTemperature();
+if(isnan(h) || isnan(t)){
+Serial.print("");
+return;
+}
+Serial.print("Humidity: ");
+Serial.print(h);
+Blynk.virtualWrite(V1,h);
+Serial.print("% Temperature:");
+Serial.println(t);
+Blynk.virtualWrite(V0,t);
+delay(1000);  
+//Bylnk.virtualWrite(V0,Variable);
+}
